@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digit Recognition Web App</title>
+</head>
+<body>
+    <h1>Upload Image for Digit Recognition</h1>
+
+    {% if message %}
+        <p style="color: green; font-weight: bold;">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <hr>
+    <h2>Live Webcam Digit Detection</h2>
+    <form method="POST" action="/start-webcam">
+        <button type="submit">Start Webcam Detection</button>
+    </form>
+
+    {% if filename %}
+    <h2>Uploaded Image:</h2>
+    <img src="{{ url_for('static', filename='uploads/' + filename) }}" width="300">
+
+    <form method="POST" action="/recognize">
+        <input type="hidden" name="filename" value="{{ filename }}">
+        <button type="submit">Recognize</button>
+    </form>
+    {% endif %}
+
+    {% if result %}
+    <h2>Recognition Result:</h2>
+    <img src="{{ url_for('static', filename='results/' + result) }}" width="500">
+    {% endif %}
+</body>
+</html>
